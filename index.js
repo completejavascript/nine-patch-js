@@ -1,11 +1,14 @@
-const srcImg = 'test.9.png';
-const WIDTH = 400;
-const HEIGHT = 300;
+const srcImg = 'test_normal.9.png';
+const WIDTH = 200;
+const HEIGHT = 250;
 
 var ninePatch;
 
 window.onload = function() {
   ninePatchWorker = new NinePatch(srcImg, WIDTH, HEIGHT);
+  view();
+  test();
+  normal();
 };
 /*
 * Show nine patch image 
@@ -20,10 +23,23 @@ function view() {
   );
 }
 
+/**
+ * Show image after scaling without handling nine-patch image
+ */
+function test() {
+  var testImgDiv = document.getElementById('testImg');
+  ninePatchWorker
+  .getSize()
+  .then(
+    result => setImage(testImgDiv, result.url, result.width + 100, result.height + 200), 
+    error => console.log('Get size of image error: ', error)
+  );
+}
+
 /*
 * Show normal image after scaling nine-patch image
 */
-function test() {
+function normal() {
   var normalImgDiv = document.getElementById('normalImg');
   ninePatchWorker
   .run()
