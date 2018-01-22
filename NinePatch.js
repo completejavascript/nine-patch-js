@@ -66,36 +66,38 @@ APIs:
         // copy top-left corner, ignore 1px from the left
         var rootX = 1, rootY = 1;
         var newX = 0, newY = 0;
-        if(offset.left - 1 > 0 && offset.top - 1 > 0) {
+        if(offset.left >= 1 && offset.top >= 1) {
           var imageData = context.getImageData(rootX, rootY, offset.left - 1, offset.top - 1);
           newContext.putImageData(imageData, newX, newY);  
         }
     
         // copy top-right corner, ignore 1px from the right
         rootX = canvas.width - offset.right; rootY = 1;
-        newX = newCanvas.width - offset.right; newY = 0;
-        if(offset.right - 1 > 0 && offset.top - 1 > 0) {
+        newX = newCanvas.width - offset.right + 1; newY = 0;
+        if(offset.right >= 1 && offset.top >= 1) {
           imageData = context.getImageData(rootX, rootY, offset.right - 1, offset.top - 1);
           newContext.putImageData(imageData, newX, newY);  
         }
     
         // copy bottom-right corner
         rootX = canvas.width - offset.right; rootY = canvas.height - offset.bottom;
-        newX = newCanvas.width - offset.right; newY = newCanvas.height - offset.bottom;
-        imageData = context.getImageData(rootX, rootY, offset.right - 1, offset.bottom - 1);
-        newContext.putImageData(imageData, newX, newY);
-    
+        newX = newCanvas.width - offset.right + 1; newY = newCanvas.height - offset.bottom + 1;
+        if(offset.right >= 1 && offset.bottom >= 1) {
+          imageData = context.getImageData(rootX, rootY, offset.right - 1, offset.bottom - 1);
+          newContext.putImageData(imageData, newX, newY);
+        }
+
         // copy bottom-left corner
         rootX = 1; rootY = canvas.height - offset.bottom;
-        newX = 0; newY = newCanvas.height - offset.bottom;
-        if(offset.left - 1 > 0 && offset.bottom - 1 > 0) {
+        newX = 0; newY = newCanvas.height - offset.bottom + 1;
+        if(offset.left >= 1 && offset.bottom >= 1) {
           imageData = context.getImageData(rootX, rootY, offset.left - 1, offset.bottom - 1);
           newContext.putImageData(imageData, newX, newY);
         }
     
         // scale middle top
         rootX = offset.left; rootY = 1;
-        if(offset.top - 1 > 0) {
+        if(offset.top >= 1) {
           imageData = context.getImageData(rootX, rootY, 1, offset.top - 1);
           for(let x = offset.left - 1; x <= newCanvas.width - offset.right; x++) {
             newContext.putImageData(imageData, x, 0);
@@ -104,18 +106,18 @@ APIs:
     
         // scale middle bottom
         rootX = offset.left; rootY = canvas.height - offset.bottom;
-        if(offset.bottom - 1 > 0) {
+        if(offset.bottom >= 1) {
           imageData = context.getImageData(rootX, rootY, 1, offset.bottom - 1);
           for(let x = offset.left - 1; x <= newCanvas.width - offset.right; x++) {
-            newContext.putImageData(imageData, x, newCanvas.height - offset.bottom);
+            newContext.putImageData(imageData, x, newCanvas.height - offset.bottom + 1);
           }
         }
     
         // scale middle left
         rootX = 1; rootY = offset.top;
-        if(offset.left - 1 > 0) {
+        if(offset.left >= 1) {
           imageData = context.getImageData(rootX, rootY, offset.left - 1, 1);
-          for(let y = offset.top - 1; y <= newCanvas.height - offset.top; y++) {
+          for(let y = offset.top - 1; y <= newCanvas.height - offset.bottom; y++) {
             newContext.putImageData(imageData, 0, y);
           }    
         }
@@ -124,8 +126,8 @@ APIs:
         rootX = canvas.width - offset.right; rootY = offset.top;
         if(offset.right - 1 > 0) {
           imageData = context.getImageData(rootX, rootY, offset.right - 1, 1);
-          for(let y = offset.top - 1; y <= newCanvas.height - offset.top; y++) {
-            newContext.putImageData(imageData, newCanvas.width - offset.right, y);
+          for(let y = offset.top - 1; y <= newCanvas.height - offset.bottom; y++) {
+            newContext.putImageData(imageData, newCanvas.width - offset.right + 1, y);
           }
         }
     
@@ -135,7 +137,7 @@ APIs:
         for(let y = offset.top - 1; y <= newCanvas.height - offset.bottom; y++) {
           newContext.putImageData(imageData, offset.left - 1, y);
         }
-        imageData = newContext.getImageData(offset.left - 1, offset.top - 1, 1, newCanvas.height - offset.bottom - offset.top);
+        imageData = newContext.getImageData(offset.left - 1, offset.top - 1, 1, newCanvas.height - offset.bottom - offset.top + 2);
         for(let x = offset.left; x <= newCanvas.width - offset.right; x++) {
           newContext.putImageData(imageData, x, offset.top -1);         
         }
@@ -234,3 +236,27 @@ APIs:
   }
   window.NinePatch = NinePatch;
 })(document, window);
+
+/*
+MIT License
+
+Copyright (c) 2018 Lam Pham
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
