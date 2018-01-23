@@ -34,6 +34,7 @@ APIs:
     var self = this;
     return new Promise(function(resolve, reject) {
       var image = new Image();
+      image.crossOrigin = "Anonymous";
       image.onload = function() {
         resolve({url: self.srcImage, width: image.width, height: image.height});
       };
@@ -52,7 +53,7 @@ APIs:
       var context = canvas.getContext('2d');
       var newContext = newCanvas.getContext('2d');
       var image = new Image();
-    
+      image.crossOrigin = "Anonymous";
       image.onload = function() {
         canvas.width = image.width;
         canvas.height = image.height;
@@ -196,7 +197,7 @@ APIs:
       var canvas = document.createElement('canvas');
       var context = canvas.getContext('2d');
       var image = new Image();
-        
+      image.crossOrigin = "Anonymous";
       image.onload = function() {
         canvas.width = image.width;
         canvas.height = image.height;
