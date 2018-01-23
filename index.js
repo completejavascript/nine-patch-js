@@ -7,8 +7,8 @@ var ninePatch;
 window.onload = function() {
   ninePatchWorker = new NinePatch(srcImg, WIDTH, HEIGHT);
   view();
-  test();
   normal();
+  test();
 };
 /*
 * Show nine patch image 
