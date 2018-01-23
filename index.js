@@ -1,6 +1,6 @@
 const srcImg = 'test_normal.9.png';
-const WIDTH = 200;
-const HEIGHT = 250;
+const WIDTH = 150;
+const HEIGHT = 150;
 
 var ninePatch;
 
@@ -31,7 +31,7 @@ function test() {
   ninePatchWorker
   .getSize()
   .then(
-    result => setImage(testImgDiv, result.url, result.width + 100, result.height + 200), 
+    result => setImage(testImgDiv, result.url, result.width + 50, result.height + 100), 
     error => console.log('Get size of image error: ', error)
   );
 }
